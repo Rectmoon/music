@@ -11,6 +11,10 @@ export default new Router({
   linkActiveClass: 'active',
   routes: [
     {
+      path: '/',
+      redirect: '/recommend'
+    },
+    {
       path: '/recommend',
       component: Recommend
     },

@@ -4,7 +4,7 @@
       <slot></slot>
     </div>
     <div class="dots">
-      <span class="dot" :class='{active: currentPageIndex === i}' v-for='(item, i) in dots' :key='i'></span>
+      <span class="dot" :class='{active: currentPageIndex === i-1}' v-for='(item, i) in dots' :key='i'></span>
     </div>
   </div>
 </template>
@@ -12,6 +12,7 @@
 <script>
   import BScroll from 'better-scroll'
   import { addClass } from 'lib/js/dom'
+
   export default {
     name: 'Slider',
     props: {
@@ -31,7 +32,7 @@
     data() {
       return {
         dots: [],
-        currentPageIndex: 0
+        currentPageIndex: -1
       }
     },
     methods: {
@@ -45,9 +46,7 @@
           child.style.width = sliderWidth + 'px'
           width += sliderWidth
         }
-        if (this.loop && !isResize) {
-          width += 2 * sliderWidth
-        }
+        if (this.loop && !isResize) width += 2 * sliderWidth
         this.$refs.sliderGroup.style.width = width + 'px'
       },
       _initDots() {
@@ -58,10 +57,17 @@
           scrollX: true,
           scrollY: false,
           momentum: false,
-          snap: true,
-          snapLoop: this.loop,
-          snapThreshold: 0.3,
-          snapSpeed: 400
+          snap: {
+            loop: this.loop,
+            speed: 400,
+            threshold: 0.3,
+            easing: {
+              style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              fn: function(t) {
+                return t * (2 - t)
+              }
+            }
+          }
         })
         this.slider.on('scrollEnd', _ => {
           let pageIndex = this.slider.getCurrentPage().pageX
@@ -93,6 +99,9 @@
         this._setSliderWidth(true)
         this.slider.refresh()
       })
+    },
+    destroyed() {
+      clearTimeout(this.timer)
     }
   }
 </script>
