@@ -1,11 +1,11 @@
 {
-  "name": "books",
+  "name": "music",
   "version": "1.0.0",
   "description": "A Vue.js project",
   "author": "zly",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js"
@@ -16,7 +16,7 @@
     "fastclick": "^1.0.6",
     "jsonp": "^0.2.1",
     "vue": "^2.5.2",
-    "vue-lazy-load": "^0.0.7",
+    "vue-lazyload": "^1.2.3",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },
